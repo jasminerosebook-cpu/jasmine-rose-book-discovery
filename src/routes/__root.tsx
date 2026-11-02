@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { startFaviconSpin, stopFaviconSpin } from "../lib/animated-favicon";
 
 function NotFoundComponent() {
   return (
@@ -95,7 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500;600&display=swap" },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
     ],
   }),
   shellComponent: RootShell,
@@ -120,11 +121,21 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  useEffect(() => {
+    startFaviconSpin();
+    const done = () => stopFaviconSpin();
+    if (document.readyState === "complete") done();
+    else window.addEventListener("load", done, { once: true });
+    const u1 = router.subscribe("onBeforeNavigate", () => startFaviconSpin());
+    const u2 = router.subscribe("onResolved", () => stopFaviconSpin());
+    return () => { u1(); u2(); window.removeEventListener("load", done); };
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="page-enter"><Outlet /></div>
     </QueryClientProvider>
   );
 }
