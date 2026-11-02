@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   BookOpen, Search, Send, TrendingUp, Compass, MessageCircle, UserCheck, Users, Zap,
@@ -374,7 +374,7 @@ function Index() {
             <div className="mt-3 flex gap-3">
               {[[Instagram, "Instagram"], [Facebook, "Facebook"], [Twitter, "X"], [Linkedin, "LinkedIn"]].map(([I, l]) => {
                 const Icon = I as typeof Eye;
-                return <a key={l as string} href="#" aria-label={l as string} className="grid h-10 w-10 place-items-center rounded-full border border-border text-royal transition-all hover:-translate-y-1 hover:border-gold hover:bg-gold-gradient hover:text-royal-deep"><Icon className="h-4 w-4" /></a>;
+                return <a key={l as string} href={MAILTO} aria-label={`${l as string} – contact Jasmine Rose`} className="grid h-10 w-10 place-items-center rounded-full border border-border text-royal transition-all hover:-translate-y-1 hover:border-gold hover:bg-gold-gradient hover:text-royal-deep"><Icon className="h-4 w-4" /></a>;
               })}
             </div>
           </div>
@@ -382,7 +382,7 @@ function Index() {
         <div className="border-t border-border">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-muted-foreground sm:flex-row">
             <p>Copyright © 2026 Jasmine Rose</p>
-            <div className="flex gap-6"><a href="#" className="hover:text-royal">Privacy Policy</a><a href="#" className="hover:text-royal">Terms of Service</a></div>
+            <div className="flex gap-6"><Link to="/privacy-policy" className="hover:text-royal">Privacy Policy</Link><Link to="/terms-of-service" className="hover:text-royal">Terms of Service</Link></div>
           </div>
         </div>
       </footer>
