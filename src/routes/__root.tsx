@@ -15,22 +15,27 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-hero px-6">
+      <div aria-hidden className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-gold-gradient opacity-25 blur-3xl" />
+      <div aria-hidden className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-royal-gradient opacity-20 blur-3xl" />
+      <main className="relative max-w-xl text-center">
+        <Link to="/" className="font-display text-2xl font-semibold tracking-[0.25em] text-royal-deep">
+          JASMINE <span className="text-gold-gradient">ROSE</span>
+        </Link>
+        <p className="mt-10 font-display text-8xl font-semibold text-gold-gradient md:text-9xl">404</p>
+        <h1 className="mt-4 font-display text-4xl font-semibold text-royal-deep">This page has wandered off the shelf</h1>
+        <p className="mt-4 text-muted-foreground">
+          Sorry, the page you're looking for can't be found. It may have moved, or the link may be mistyped.
         </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
+        <div className="mt-9 flex flex-wrap justify-center gap-4">
+          <Link to="/" className="inline-flex items-center rounded-full bg-gold-gradient px-8 py-3.5 text-sm font-medium text-royal-deep shadow-gold transition-all hover:-translate-y-0.5">
+            Return Home
           </Link>
+          <a href="mailto:jasminerosebookresearch@gmail.com" className="inline-flex items-center rounded-full border border-royal/30 px-8 py-3.5 text-sm font-medium text-royal transition-all hover:-translate-y-0.5 hover:border-gold hover:bg-cream">
+            Contact Me
+          </a>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
