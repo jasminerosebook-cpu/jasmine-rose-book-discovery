@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   BookOpen, Search, Send, TrendingUp, Compass, MessageCircle, UserCheck, Users, Zap,
   ShieldCheck, Award, Heart, Eye, MousePointerClick, Star, ShoppingBag, Mail, ArrowUp,
@@ -69,6 +69,26 @@ const NAV = [
   ["Results", "#results"], ["Process", "#process"], ["FAQ", "#faq"],
 ];
 
+function Letters({ text, start, gold }: { text: string; start: number; gold?: boolean }) {
+  return (
+    <span aria-hidden>
+      {text.split(" ").map((w, wi, arr) => {
+        const offset = start + arr.slice(0, wi).join(" ").length + (wi ? 1 : 0);
+        return (
+          <Fragment key={wi}>
+            <span className="inline-block whitespace-nowrap">
+              {[...w].map((ch, ci) => (
+                <span key={ci} className={`letter ${gold ? "text-gold-gradient" : ""}`} style={{ animationDelay: `${300 + (offset + ci) * 28}ms` }}>{ch}</span>
+              ))}
+            </span>
+            {wi < arr.length - 1 && " "}
+          </Fragment>
+        );
+      })}
+    </span>
+  );
+}
+
 function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: string }) {
   return (
     <div className="reveal mx-auto mb-14 max-w-2xl text-center">
@@ -110,7 +130,7 @@ function Index() {
           </a>
           <ul className="hidden items-center gap-8 lg:flex">
             {NAV.map(([l, h]) => (
-              <li key={h}><a href={h} className="text-sm text-foreground/80 transition-colors hover:text-royal">{l}</a></li>
+              <li key={h}><a href={h} className="nav-link text-sm text-foreground/80">{l}</a></li>
             ))}
           </ul>
           <div className="hidden lg:block"><Btn href="#contact">Get Started</Btn></div>
@@ -145,17 +165,19 @@ function Index() {
             </div>
           ))}
           <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="reveal">
-              <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-royal">
+            <div>
+              <span className="hero-rise glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-royal">
                 <Sparkles className="h-3.5 w-3.5 text-gold" /> Goodreads Listopia Specialist
               </span>
-              <h1 className="mt-6 text-5xl font-semibold leading-[1.05] text-royal-deep md:text-6xl xl:text-7xl">
-                Helping Authors Get Their Books <em className="text-gold-gradient">Seen</em> on Goodreads Listopia
+              <h1 className="mt-6 text-5xl font-semibold leading-[1.05] text-royal-deep md:text-6xl xl:text-7xl" aria-label="Helping Authors Get Their Books Seen on Goodreads Listopia">
+                <Letters text="Helping Authors Get Their Books" start={0} />{" "}
+                <em className="text-gold-gradient"><Letters text="Seen" start={31} gold /></em>{" "}
+                <Letters text="on Goodreads Listopia" start={36} />
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
                 I help authors increase their book's visibility by getting them featured on relevant Goodreads Listopia lists, helping readers discover their work organically.
               </p>
-              <div className="mt-9 flex flex-wrap gap-4">
+              <div className="hero-rise mt-9 flex flex-wrap gap-4">
                 <Btn href="#contact">Get Started</Btn>
                 <Btn href="#results" variant="outline">View Success Stories</Btn>
               </div>
@@ -169,7 +191,7 @@ function Index() {
                 ))}
               </dl>
             </div>
-            <div className="reveal relative mx-auto w-full max-w-md">
+            <div className="hero-image relative mx-auto w-full max-w-md">
               <div className="absolute inset-4 -z-0 rounded-[2.5rem] bg-royal-gradient rotate-3 shadow-elegant" />
               <div className="absolute inset-4 rounded-[2.5rem] border-2 border-gold -rotate-3" />
               <img src={portrait.url} alt="Jasmine Rose holding a stack of books" width={460} height={460} fetchPriority="high" className="relative w-full rounded-[2.5rem] object-cover" />
