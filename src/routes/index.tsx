@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   BookOpen, Search, Send, TrendingUp, Compass, MessageCircle, UserCheck, Users, Zap,
   ShieldCheck, Award, Heart, Eye, MousePointerClick, Star, ShoppingBag, Mail, ArrowUp,
@@ -75,12 +75,14 @@ function Letters({ text, start, gold }: { text: string; start: number; gold?: bo
       {text.split(" ").map((w, wi, arr) => {
         const offset = start + arr.slice(0, wi).join(" ").length + (wi ? 1 : 0);
         return (
-          <span key={wi} className="inline-block whitespace-nowrap">
-            {[...w].map((ch, ci) => (
-              <span key={ci} className={`letter ${gold ? "text-gold-gradient" : ""}`} style={{ animationDelay: `${300 + (offset + ci) * 28}ms` }}>{ch}</span>
-            ))}
+          <Fragment key={wi}>
+            <span className="inline-block whitespace-nowrap">
+              {[...w].map((ch, ci) => (
+                <span key={ci} className={`letter ${gold ? "text-gold-gradient" : ""}`} style={{ animationDelay: `${300 + (offset + ci) * 28}ms` }}>{ch}</span>
+              ))}
+            </span>
             {wi < arr.length - 1 && " "}
-          </span>
+          </Fragment>
         );
       })}
     </span>
